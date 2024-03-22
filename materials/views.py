@@ -6,8 +6,7 @@ from math import ceil
 
 @csrf_exempt
 def materials(request):
-    if request.method != "POST":
-        return HttpResponse("Wrong request, please use POST request")
+    request_data = request.POST or request.GET
 
     product_materials = {
         p.product_name: {
@@ -30,7 +29,7 @@ def materials(request):
     data = []
 
     for product_name, materials in product_materials.items():
-        product_qty = request.POST.get(product_name)
+        product_qty = request_data.get(product_name)
         if product_qty is None:
             continue
         product_qty = int(product_qty)
